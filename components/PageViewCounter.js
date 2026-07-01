@@ -9,7 +9,7 @@ const PageViewCounter = ({ slug, path: propPath }) => {
   const [views, setViews] = useState(null)
   const router = useRouter()
   const walineServerUrl = siteConfig('COMMENT_WALINE_SERVER_URL')
-  const pagePath = propPath || router.asPath
+  const pagePath = (propPath || router.asPath).split('?')[0]
 
   useEffect(() => {
     if (!walineServerUrl) return
