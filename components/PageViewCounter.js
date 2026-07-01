@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { siteConfig } from '@/lib/config'
 
 /**
- * 文章浏览量组件 - 从 Waline 获取单篇浏览量
+ * 文章浏览量组件 - 从 Waline 获取单篇浏览量，并在首次加载时自动上报
  */
 const PageViewCounter = ({ slug, path: propPath }) => {
   const [views, setViews] = useState(null)
@@ -14,6 +14,14 @@ const PageViewCounter = ({ slug, path: propPath }) => {
   useEffect(() => {
     if (!walineServerUrl) return
 
+    // 上报浏览量（POST）
+    fetch(`${walineServerUrl}/api/article`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ path: pagePath })
+    }).catch(() => {})
+
+    // 获取浏览量（GET）
     fetch(
       `${walineServerUrl}/api/article?path=${encodeURIComponent(pagePath)}&type=views`
     )
