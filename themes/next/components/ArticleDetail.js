@@ -14,6 +14,7 @@ import ArticleCopyright from './ArticleCopyright'
 import BlogAround from './BlogAround'
 import RecommendPosts from './RecommendPosts'
 import TagItem from './TagItem'
+import PageViewCounter from '@/components/PageViewCounter'
 import WordCount from '@/components/WordCount'
 
 /**
@@ -84,10 +85,7 @@ export default function ArticleDetail(props) {
                       {post.lastEditedDay}{' '}
                     </span>
 
-                    <div className='hidden busuanzi_container_page_pv font-light mr-2'>
-                      <i className='mr-1 fas fa-eye' />
-                      <span className='mr-2 busuanzi_value_page_pv' />
-                    </div>
+                    <PageViewCounter />
                   </>
                 )}
               </div>
