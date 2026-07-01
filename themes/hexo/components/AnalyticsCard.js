@@ -4,6 +4,7 @@ import Card from './Card'
 
 /**
  * 站点统计组件 - 从 Waline 获取总浏览量
+ * 使用 style display:none 确保不产生 hydration mismatch
  */
 const WalineStats = () => {
   const [stats, setStats] = useState(null)
@@ -21,12 +22,10 @@ const WalineStats = () => {
       .catch(() => {})
   }, [walineServerUrl])
 
-  if (!walineServerUrl || !stats) return null
-
   return (
-    <div className='flex justify-between'>
+    <div className='flex justify-between' style={stats ? {} : { display: 'none' }}>
       <div>访问量:</div>
-      <div className='font-semibold'>{stats.total_views}</div>
+      <div className='font-semibold'>{stats?.total_views ?? '...'}</div>
     </div>
   )
 }

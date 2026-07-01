@@ -84,4 +84,7 @@ const BLOG = {
   UUID_REDIRECT: process.env.UUID_REDIRECT || false
 }
 
+// 评论系统配置
+BLOG.COMMENT_WALINE_SERVER_URL = process.env.NEXT_PUBLIC_WALINE_SERVER_URL || ""
+
 module.exports = BLOG
