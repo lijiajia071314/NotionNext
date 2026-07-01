@@ -24,13 +24,13 @@ const WalineTotalCounter = ({ showIcon = true }) => {
 
   return (
     <>
-      <span className='busuanzi_container_site_pv ml-2'>
-        {showIcon && <i className='fas fa-eye mx-1' />}
-        访问量: <span className='px-1 busuanzi_value_site_pv'>{stats.total_views}</span>
+      <span className='inline-flex items-center mr-2'>
+        {showIcon && <i className='fas fa-eye mr-1' />}
+        访问量: <span className='font-semibold ml-1'>{stats.total_views}</span>
       </span>
-      <span className='pl-2 busuanzi_container_site_uv'>
-        {showIcon && <i className='fas fa-file mx-1' />}
-        文章数: <span className='px-1 busuanzi_value_site_uv'>{stats.total_pages}</span>
+      <span className='inline-flex items-center mr-2'>
+        {showIcon && <i className='fas fa-file mr-1' />}
+        文章数: <span className='font-semibold ml-1'>{stats.total_pages}</span>
       </span>
     </>
   )
