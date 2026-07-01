@@ -14,11 +14,13 @@ const PageViewCounter = ({ slug, path: propPath }) => {
   useEffect(() => {
     if (!walineServerUrl) return
 
-    fetch(`${walineServerUrl}/api/article?path=${encodeURIComponent(pagePath)}`)
+    fetch(
+      `${walineServerUrl}/api/article?path=${encodeURIComponent(pagePath)}&type=views`
+    )
       .then(res => res.json())
       .then(data => {
-        if (data && typeof data.views === 'number') {
-          setViews(data.views)
+        if (data?.errno === 0 && data?.data?.[0]?.views !== undefined) {
+          setViews(data.data[0].views)
         } else {
           setViews(0)
         }
