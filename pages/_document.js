@@ -102,22 +102,25 @@ class MyDocument extends Document {
         <script id="waline-stats-script" dangerouslySetInnerHTML={{
           __html: `
 (function() {
-  var url = 'https://waline-comment-ruby.vercel.app';
-  if (!url) return;
-  fetch(url + '/api/total')
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (!data || data.total_views === undefined) return;
-      var viewsEl = document.getElementById('waline-total-views');
-      var pagesEl = document.getElementById('waline-total-pages');
-      if (viewsEl) viewsEl.textContent = data.total_views;
-      if (pagesEl) pagesEl.textContent = data.total_pages || 0;
-      var container = document.getElementById('waline-stats-container');
-      if (container) container.style.display = '';
-      var analyticsEl = document.getElementById('waline-analytics-views-value');
-      if (analyticsEl) analyticsEl.textContent = data.total_views;
-    })
-    .catch(function() {});
+  var WALINE_URL = 'https://waline-comment-ruby.vercel.app';
+  function updateStats() {
+    var viewsEl = document.getElementById('waline-total-views');
+    var container = document.getElementById('waline-stats-container');
+    if (!viewsEl || !container) { setTimeout(updateStats, 500); return; }
+    fetch(WALINE_URL + '/api/total')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data || data.total_views === undefined) return;
+        viewsEl.textContent = data.total_views;
+        var pagesEl = document.getElementById('waline-total-pages');
+        if (pagesEl) pagesEl.textContent = data.total_pages || 0;
+        container.style.display = '';
+        var analyticsEl = document.getElementById('waline-analytics-views-value');
+        if (analyticsEl) analyticsEl.textContent = data.total_views;
+      })
+      .catch(function() { setTimeout(updateStats, 2000); });
+  }
+  setTimeout(updateStats, 1000);
 })();
           `
         }} />
