@@ -1,44 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
 import { BeiAnGongAn } from '@/components/BeiAnGongAn'
 import BeiAnSite from '@/components/BeiAnSite'
 import PoweredBy from '@/components/PoweredBy'
 import { siteConfig } from '@/lib/config'
-
-/**
- * 页脚统计组件 - 从 Waline 获取总浏览量和页面数
- * 使用脚本注入方式确保不受 React hydration 影响
- */
-const FooterStats = () => {
-  const [stats, setStats] = useState(null)
-  const elRef = useRef(null)
-  const walineServerUrl = siteConfig('COMMENT_WALINE_SERVER_URL')
-
-  useEffect(() => {
-    if (!walineServerUrl) return
-    fetch(`${walineServerUrl}/api/total`)
-      .then(res => res.json())
-      .then(data => {
-        if (data?.total_views !== undefined) {
-          setStats(data)
-        }
-      })
-      .catch(() => {})
-  }, [walineServerUrl])
-
-  // 始终渲染容器，用 display:none 隐藏未加载状态
-  return (
-    <span ref={elRef} style={stats ? {} : { display: 'none' }}>
-      <span className='inline-flex items-center mr-2'>
-        <i className='fas fa-eye mr-1' />
-        访问量: <span className='font-semibold ml-1' id='waline-total-views'>{stats?.total_views ?? '...'}</span>
-      </span>
-      <span className='inline-flex items-center mr-2'>
-        <i className='fas fa-file mr-1' />
-        文章数: <span className='font-semibold ml-1'>{stats?.total_pages ?? '...'}</span>
-      </span>
-    </span>
-  )
-}
 
 const Footer = ({ title }) => {
   const d = new Date()
@@ -60,7 +23,17 @@ const Footer = ({ title }) => {
         .<br />
         <BeiAnSite />
         <BeiAnGongAn />
-        <FooterStats />
+        {/* Waline 统计容器 - 由 WalineStatsInject 填充 */}
+        <span id='waline-stats-container' style={{ display: 'none' }}>
+          <span className='inline-flex items-center mr-2'>
+            <i className='fas fa-eye mr-1' />
+            访问量: <span className='font-semibold ml-1' id='waline-total-views'>...</span>
+          </span>
+          <span className='inline-flex items-center mr-2'>
+            <i className='fas fa-file mr-1' />
+            文章数: <span className='font-semibold ml-1' id='waline-total-pages'>...</span>
+          </span>
+        </span>
         <h1 className='text-xs pt-4 text-light-400 dark:text-gray-400'>
           {title} {siteConfig('BIO') && <>|</>} {siteConfig('BIO')}
         </h1>
