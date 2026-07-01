@@ -1,5 +1,6 @@
 import LazyImage from '@/components/LazyImage'
 import NotionIcon from '@/components/NotionIcon'
+import PageViewCounter from '@/components/PageViewCounter'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
 import { formatDateFmt } from '@/lib/utils/formatDate'
@@ -75,12 +76,10 @@ export default function PostHero({ post, siteInfo }) {
               </div>
             </div>
 
-            {JSON.parse(siteConfig('ANALYTICS_BUSUANZI_ENABLE')) && (
-              <div className='busuanzi_container_page_pv font-light mr-2'>
-                <span className='mr-2 busuanzi_value_page_pv' />
+            <div className='font-light mr-2'>
+                <PageViewCounter />
                 {locale.COMMON.VIEWS}
               </div>
-            )}
           </section>
 
           <div className='mt-4 mb-1'>
