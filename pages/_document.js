@@ -99,6 +99,28 @@ class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
+        <script id="waline-stats-script" dangerouslySetInnerHTML={{
+          __html: `
+(function() {
+  var url = 'https://waline-comment-ruby.vercel.app';
+  if (!url) return;
+  fetch(url + '/api/total')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data || data.total_views === undefined) return;
+      var viewsEl = document.getElementById('waline-total-views');
+      var pagesEl = document.getElementById('waline-total-pages');
+      if (viewsEl) viewsEl.textContent = data.total_views;
+      if (pagesEl) pagesEl.textContent = data.total_pages || 0;
+      var container = document.getElementById('waline-stats-container');
+      if (container) container.style.display = '';
+      var analyticsEl = document.getElementById('waline-analytics-views-value');
+      if (analyticsEl) analyticsEl.textContent = data.total_views;
+    })
+    .catch(function() {});
+})();
+          `
+        }} />
         </body>
       </Html>
     )
