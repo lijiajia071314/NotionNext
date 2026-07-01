@@ -1,5 +1,35 @@
-import WalineTotalCounter from '@/components/WalineTotalCounter'
+import { useEffect, useState } from 'react'
+import { siteConfig } from '@/lib/config'
 import Card from './Card'
+
+/**
+ * 站点统计组件 - 从 Waline 获取总浏览量
+ */
+const WalineStats = () => {
+  const [stats, setStats] = useState(null)
+  const walineServerUrl = siteConfig('COMMENT_WALINE_SERVER_URL')
+
+  useEffect(() => {
+    if (!walineServerUrl) return
+    fetch(`${walineServerUrl}/api/total`)
+      .then(res => res.json())
+      .then(data => {
+        if (data?.total_views !== undefined) {
+          setStats(data)
+        }
+      })
+      .catch(() => {})
+  }, [walineServerUrl])
+
+  if (!walineServerUrl || !stats) return null
+
+  return (
+    <div className='flex justify-between'>
+      <div>访问量:</div>
+      <div className='font-semibold'>{stats.total_views}</div>
+    </div>
+  )
+}
 
 export function AnalyticsCard (props) {
   const { postCount } = props
@@ -15,7 +45,7 @@ export function AnalyticsCard (props) {
         </div>
       </div>
       <div className='mt-2'>
-        <WalineTotalCounter showIcon={false} />
+        <WalineStats />
       </div>
     </div>
   </Card>

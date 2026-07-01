@@ -1,8 +1,43 @@
-import WalineTotalCounter from '@/components/WalineTotalCounter'
+import { useEffect, useState } from 'react'
 import { BeiAnGongAn } from '@/components/BeiAnGongAn'
 import BeiAnSite from '@/components/BeiAnSite'
 import PoweredBy from '@/components/PoweredBy'
 import { siteConfig } from '@/lib/config'
+
+/**
+ * 页脚统计组件 - 从 Waline 获取总浏览量和页面数
+ */
+const FooterStats = () => {
+  const [stats, setStats] = useState(null)
+  const walineServerUrl = siteConfig('COMMENT_WALINE_SERVER_URL')
+
+  useEffect(() => {
+    if (!walineServerUrl) return
+    fetch(`${walineServerUrl}/api/total`)
+      .then(res => res.json())
+      .then(data => {
+        if (data?.total_views !== undefined) {
+          setStats(data)
+        }
+      })
+      .catch(() => {})
+  }, [walineServerUrl])
+
+  if (!walineServerUrl || !stats) return null
+
+  return (
+    <>
+      <span className='inline-flex items-center mr-2'>
+        <i className='fas fa-eye mr-1' />
+        访问量: <span className='font-semibold ml-1'>{stats.total_views}</span>
+      </span>
+      <span className='inline-flex items-center mr-2'>
+        <i className='fas fa-file mr-1' />
+        文章数: <span className='font-semibold ml-1'>{stats.total_pages}</span>
+      </span>
+    </>
+  )
+}
 
 const Footer = ({ title }) => {
   const d = new Date()
@@ -25,7 +60,7 @@ const Footer = ({ title }) => {
         .<br />
         <BeiAnSite />
         <BeiAnGongAn />
-        <WalineTotalCounter />
+        <FooterStats />
         <h1 className='text-xs pt-4 text-light-400 dark:text-gray-400'>
           {title} {siteConfig('BIO') && <>|</>} {siteConfig('BIO')}
         </h1>
