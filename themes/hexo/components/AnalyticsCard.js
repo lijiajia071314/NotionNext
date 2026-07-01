@@ -14,7 +14,7 @@ export function AnalyticsCard (props) {
         </div>
       </div>
       <div className='mt-2'>
-        <div className='flex justify-between' id='waline-analytics-views'>
+        <div className='flex justify-between'>
           <div>访问量:</div>
           <div className='font-semibold' id='waline-analytics-views-value'>...</div>
         </div>

@@ -23,17 +23,7 @@ const Footer = ({ title }) => {
         .<br />
         <BeiAnSite />
         <BeiAnGongAn />
-        {/* Waline 统计容器 - 由 WalineStatsInject 填充 */}
-        <span id='waline-stats-container' style={{ display: 'none' }}>
-          <span className='inline-flex items-center mr-2'>
-            <i className='fas fa-eye mr-1' />
-            访问量: <span className='font-semibold ml-1' id='waline-total-views'>...</span>
-          </span>
-          <span className='inline-flex items-center mr-2'>
-            <i className='fas fa-file mr-1' />
-            文章数: <span className='font-semibold ml-1' id='waline-total-pages'>...</span>
-          </span>
-        </span>
+        <span id='waline-stats-container' data-waline-url='https://waline-comment-ruby.vercel.app' />
         <h1 className='text-xs pt-4 text-light-400 dark:text-gray-400'>
           {title} {siteConfig('BIO') && <>|</>} {siteConfig('BIO')}
         </h1>

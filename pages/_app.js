@@ -16,7 +16,6 @@ import ErrorHandler from '@/lib/utils/errorHandler'
 
 // 各种扩展插件 这个要阻塞引入
 import BLOG from '@/blog.config'
-import WalineStatsInject from "@/components/WalineStatsInject"
 import ExternalPlugins from '@/components/ExternalPlugins'
 import SEO from '@/components/SEO'
 import { zhCN } from '@clerk/localizations'
@@ -90,7 +89,6 @@ const MyApp = ({ Component, pageProps }) => {
           <SEO {...pageProps} />
           <Component {...pageProps} />
         </GLayout>
-        <WalineStatsInject />
         <ExternalPlugins {...pageProps} />
       </GlobalContextProvider>
     </AppErrorBoundary>

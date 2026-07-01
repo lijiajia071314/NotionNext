@@ -103,24 +103,40 @@ class MyDocument extends Document {
           __html: `
 (function() {
   var WALINE_URL = 'https://waline-comment-ruby.vercel.app';
-  function updateStats() {
-    var viewsEl = document.getElementById('waline-total-views');
+  function initStats() {
     var container = document.getElementById('waline-stats-container');
-    if (!viewsEl || !container) { setTimeout(updateStats, 500); return; }
+    if (!container) { setTimeout(initStats, 300); return; }
+    
+    // Create stats HTML
+    container.innerHTML = 
+      '<span class="inline-flex items-center mr-2">' +
+        '<i class="fas fa-eye mr-1"></i>' +
+        '访问量: <span class="font-semibold ml-1" id="waline-total-views">...</span>' +
+      '</span>' +
+      '<span class="inline-flex items-center mr-2">' +
+        '<i class="fas fa-file mr-1"></i>' +
+        '文章数: <span class="font-semibold ml-1" id="waline-total-pages">...</span>' +
+      '</span>';
+    
+    // Fetch stats
     fetch(WALINE_URL + '/api/total')
       .then(function(r) { return r.json(); })
       .then(function(data) {
         if (!data || data.total_views === undefined) return;
-        viewsEl.textContent = data.total_views;
+        var viewsEl = document.getElementById('waline-total-views');
         var pagesEl = document.getElementById('waline-total-pages');
+        if (viewsEl) viewsEl.textContent = data.total_views;
         if (pagesEl) pagesEl.textContent = data.total_pages || 0;
-        container.style.display = '';
         var analyticsEl = document.getElementById('waline-analytics-views-value');
         if (analyticsEl) analyticsEl.textContent = data.total_views;
       })
-      .catch(function() { setTimeout(updateStats, 2000); });
+      .catch(function() {});
   }
-  setTimeout(updateStats, 1000);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStats);
+  } else {
+    initStats();
+  }
 })();
           `
         }} />
