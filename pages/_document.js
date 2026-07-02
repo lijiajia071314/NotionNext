@@ -1,4 +1,4 @@
-// eslint-disable-next-line @next/next/no-document-import-in-page
+﻿// eslint-disable-next-line @next/next/no-document-import-in-page
 import BLOG from '@/blog.config'
 import Document, { Head, Html, Main, NextScript } from 'next/document'
 
@@ -122,11 +122,7 @@ class MyDocument extends Document {
       '<span class="inline-flex items-center mr-2">' +
         '<i class="fas fa-eye mr-1"></i>' +
         '访问量: <span class="font-semibold ml-1" id="waline-total-views">...</span>' +
-      '</span>' +
-      '<span class="inline-flex items-center mr-2">' +
-        '<i class="fas fa-file mr-1"></i>' +
-        '文章数: <span class="font-semibold ml-1" id="waline-total-pages">...</span>' +
-      '</span>';
+        '</span>';
     
     // Fetch stats
     fetch(WALINE_URL + '/api/total')
@@ -134,9 +130,7 @@ class MyDocument extends Document {
       .then(function(data) {
         if (!data || data.total_views === undefined) return;
         var viewsEl = document.getElementById('waline-total-views');
-        var pagesEl = document.getElementById('waline-total-pages');
         if (viewsEl) viewsEl.textContent = data.total_views;
-        if (pagesEl) pagesEl.textContent = data.total_pages || 0;
         var analyticsEl = document.getElementById('waline-analytics-views-value');
         if (analyticsEl) analyticsEl.textContent = data.total_views;
       })
@@ -157,3 +151,5 @@ class MyDocument extends Document {
 }
 
 export default MyDocument
+
+
