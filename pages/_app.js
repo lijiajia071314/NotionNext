@@ -6,6 +6,9 @@ import '@/styles/utility-patterns.css'
 import '@/styles/notion.css' //  重写部分notion样式
 import 'react-notion-x/src/styles.css' // 原版的react-notion-x
 
+// Vercel Speed Insights
+import { SpeedInsights } from '@vercel/speed-insights/next'
+
 import useAdjustStyle from '@/hooks/useAdjustStyle'
 import { GlobalContextProvider } from '@/lib/global'
 import { getBaseLayoutByTheme } from '@/themes/theme'
@@ -100,6 +103,7 @@ const MyApp = ({ Component, pageProps }) => {
       ) : (
         content
       )}
+      <SpeedInsights />
     </>
   )
 }
